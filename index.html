@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+    <title></title>
+
+    <style>
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            border-radius: 5px;
+            font-family: 'Otomanopee One', sans-serif;
+        }
+
+        body {
+            background-color: #202e3d;
+            display: flex;
+            padding: 70px;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .main {
+            background-color: white;
+            width: 100%;
+            height: 90%;
+            overflow: hidden;
+            box-shadow:4px 4px 50px black;
+        }
+
+        .outerMain {
+            background-color: #4898f6;
+            padding: 50px;
+            width: 40vw;
+            height: 60vh;
+            margin: auto;
+        }
+
+        .fas {
+            font-size: 50px;
+            color: #dcd7e0;
+            padding-left: 5vh;
+            padding-top: 5vh;
+        }
+
+        #quote, #author {
+            color: #dcd7e0;
+            padding-left: 5vh;
+            padding-top: 5vh;
+            font-size: 20px;
+        }
+
+        #quote {
+            height: 20vh;
+        }
+
+        #author {
+            text-align: right;
+            padding-right: 5vh;
+        }
+
+        #chg {
+            width: 100%;
+            height: 10%;
+            border: none;
+            background-color: #006fcf;
+            color: white;
+            box-shadow:4px 4px 50px black;
+            font-size: 18px;
+        }
+
+            #chg:hover {
+                background-color: rgb(0 111 207 / 0.81);
+            }
+    </style>
+
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Otomanopee+One&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+    <div class="outerMain">
+        <div class="main">
+            <i class="fas fa-quote-left"></i>
+            <div id="quote"></div>
+            <div style="display:flex;justify-content:space-evenly; ">
+                <a class="twitter-share-button" id="tweet"
+                   href="https://twitter.com/intent/tweet?text=Hello%20world">
+                    <i class="fab fa-twitter" style="font-size:20px;line-height:90px;color:dodgerblue;" title="Tweet"></i>
+                </a>
+                <div id="author"></div>
+            </div>
+        </div>
+        <button id="chg">New Quote</button>
+    </div>
+
+    <script>
+        var data = [];
+        async function addQuote() {
+            var url = "https://type.fit/api/quotes";
+            const resp = await fetch(url);
+            data = await resp.json();
+            var ind = parseInt(Math.random() * 1000)
+            document.getElementById('quote').innerHTML = `<br>${data[ind].text}`;
+            document.getElementById('author').innerHTML = data[ind].author;
+            document.getElementById("tweet").href = "https://twitter.com/intent/tweet?text=" + encodeURI(data[ind].text);
+        }
+
+        function chgQuote() {
+            var ind = parseInt(Math.random() * data.length)
+            document.getElementById('quote').innerHTML = data[ind].text;
+            document.getElementById('author').innerHTML = data[ind].author;
+        }
+
+        addQuote();
+        document.getElementById("chg").addEventListener("click", addQuote);
+    </script>
+
+</body>
+
+</html>
